@@ -84,11 +84,17 @@ public class SignupControl extends HttpServlet {
             HttpSession session = request.getSession();
             Account b = dao.login(email, password);
             Cookie e = new Cookie("email", email);
+            Cookie r = new Cookie("rememberMe", "");
+            Cookie p = new Cookie("pass", password);
             e.setMaxAge(60*60*24);
+            r.setMaxAge(60*60*24);
+            p.setMaxAge(60*60*24);
             session.setAttribute("acc", b);
             session.setMaxInactiveInterval(60);
             response.addCookie(e);
-            request.getRequestDispatcher("home").forward(request, response);
+            response.addCookie(r);
+            response.addCookie(p);
+            request.getRequestDispatcher("redirect").forward(request, response);
         } else {
             //không được signup
             request.setAttribute("exist", 1);
