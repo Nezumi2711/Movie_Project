@@ -80,15 +80,18 @@ public class LoginControl extends HttpServlet {
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("acc", a);
-            session.setMaxInactiveInterval(60);
+            session.setMaxInactiveInterval(60*60);
             Cookie e = new Cookie("email", email);
+            Cookie p = new Cookie("pass", passWord);
             Cookie r = new Cookie("rememberMe", "");
             if ("[yes]".equals(remembers)) {
                 r = new Cookie("rememberMe", "[yes]");
             }
             e.setMaxAge(60 * 60 * 24);
+            p.setMaxAge(60*60);
             r.setMaxAge(60 * 60 * 24);
             response.addCookie(e);
+            response.addCookie(p);
             response.addCookie(r);
             request.getRequestDispatcher("redirect").forward(request, response);
         }
