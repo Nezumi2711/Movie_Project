@@ -40,7 +40,7 @@
     <main style="padding: 0px 10px;">
         <header class="d-flex space-between middle-align">
             <img src="images/logo.PNG" height="50px" width="170px" alt="site logo main"></img>
-            <button class="button"><a href="/Movie_Project/signin.jsp"> Sign In</a></button>
+            <button class="button"><a href="signin"> Sign In</a></button>
         </header>
         <section id="logout-section d-flex flex-center">
             <div class="logoutContainer f-s-20 d-flex flex-center direction-column">
@@ -54,7 +54,7 @@
                     This computer will be redirected to the Netflix home page in 30 seconds.
                 </p>
                 <button class="button logoutButton">
-                    <a href="signin">Continue</a>
+                    <a href="/">Continue</a>
                 </button>
             </div>
         </section>
