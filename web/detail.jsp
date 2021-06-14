@@ -49,9 +49,9 @@
                 <!-- hero section video-->
                 <div class="videocontainer">
                     <video controls crossorigin playsinline
-                           poster="${detail.poster_path}" id="player">
+                           poster="" id="player">
                         <!-- Video files -->
-                        <source src="Resource/Phim/Phim Giang Hồ 2019 Cao Thủ Ẩn Danh - FULL Bảo Liêm, La Thành, Hiếu Hiền, Ốc Thanh Vân, Khả Ngân.mp4"
+                        <source src="${detail.path}"
                                 >
 
                         <!-- Caption files -->
