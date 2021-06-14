@@ -10,25 +10,30 @@ package entity;
  * @author phanh
  */
 public class Movie {
+
     private int ID;
     private String name;
     private String Discription;
+    private String title;
     private String Director;
     private String poster_path;
     private String path;
-    private int cateID;
+    private String cate;
+    private String cateOfCate;
 
     public Movie() {
     }
 
-    public Movie(int ID, String name, String Discription, String Director, String poster_path, String path, int cateID) {
+    public Movie(int ID, String name, String Discription, String title, String Director, String poster_path, String path, String cate, String cateOfCate) {
         this.ID = ID;
         this.name = name;
         this.Discription = Discription;
+        this.title = title;
         this.Director = Director;
         this.poster_path = poster_path;
         this.path = path;
-        this.cateID = cateID;
+        this.cate = cate;
+        this.cateOfCate = cateOfCate;
     }
 
     public int getID() {
@@ -55,6 +60,14 @@ public class Movie {
         this.Discription = Discription;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDirector() {
         return Director;
     }
@@ -79,17 +92,25 @@ public class Movie {
         this.path = path;
     }
 
-    public int getCateID() {
-        return cateID;
+    public String getCate() {
+        return cate;
     }
 
-    public void setCateID(int cateID) {
-        this.cateID = cateID;
+    public void setCate(String cate) {
+        this.cate = cate;
+    }
+
+    public String getCateOfCate() {
+        return cateOfCate;
+    }
+
+    public void setCateOfCate(String cateOfCate) {
+        this.cateOfCate = cateOfCate;
     }
 
     @Override
     public String toString() {
-        return "Movie{" + "ID=" + ID + ", name=" + name + ", Discription=" + Discription + ", Director=" + Director + ", poster_path=" + poster_path + ", path=" + path + ", cateID=" + cateID + '}';
+        return "Movie{" + "ID=" + ID + ", name=" + name + ", Discription=" + Discription + ", title=" + title + ", Director=" + Director + ", poster_path=" + poster_path + ", path=" + path + ", cate=" + cate + ", cateOfCate=" + cateOfCate + '}';
     }
 
     
