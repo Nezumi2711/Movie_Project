@@ -81,6 +81,6 @@ public class Account {
     public String toString() {
         return "Account{" + "uID=" + uID + ", fullName=" + fullName + ", email=" + email + ", pass=" + pass + ", phone=" + phone + ", isAdmin=" + isAdmin + '}';
     }
-    
+
     
 }
