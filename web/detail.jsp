@@ -4,6 +4,7 @@
     Author     : phanh
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -16,7 +17,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Netflix world – Watch TV Shows Online, Watch Movies Online</title>
+        <title>${detail.name} - Netflix</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -52,81 +53,77 @@
                            poster="" id="player">
                         <!-- Video files -->
                         <source src="${detail.path}"
-                                >
+                            >
 
-                        <!-- Caption files -->
-                    </video>
-                </div>
-
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        // This is the bare minimum JavaScript. You can opt to pass no arguments to setup.
-                        const player = new Plyr('#player');
-
-                        // Expose
-                        window.player = player;
-
-                        // Bind event listener
-                        function on(selector, type, callback) {
-                            document.querySelector(selector).addEventListener(type, callback, false);
-                        }
-                    });
-                </script>
-
-
-                <section class="movieinformation container">
-                    <div class="movielogo">
-                        <h1 style="font-size: 30px">${detail.name}</h1>
-                    </div>
-                    <div class="description">
-                        ${detail.discription}
-                    </div>
-                    <div class="castinformation">
-                        <p><span class="name">Director:</span>  ${detail.director} </p>
-                    </div>
-                    <div class="actions d-flex flex-start flex-middle">
-                        <a href="#" class="link-item">
-                            <i class="fa fa-plus"></i></br>
-                            My List
-                        </a>
-                        <a href="#" class="link-item">
-                            <i class="fa fa-download"></i></br>
-                            Download
-                        </a>
-                    </div>
-                </section>
-
-
-
-
-                <!--Hollywood Action movies-->
-                <section id="similar" class="container p-t-40">
-                    <h4 class="romantic-heading">
-                        More LIke This
-                    </h4>
-                    <div class="romantic-container d-flex flex-start flex-middle">
-                        <a href="#">
-                            <img src="../images/movies/horrible-bosses-middle-poster.webp" alt=""
-                                 class="mylist-img p-r-10 p-t-10 image-size item"></a>
-                        <a href="#">
-                            <img src="../images/movies/kabir-singh-poster.webp" alt=""
-                                 class="mylist-img p-r-10 p-t-10 image-size item"></a>
-                        <a href="#">
-                            <img src="../images/movies/extraction-poster.jpg" alt=""
-                                 class="mylist-img p-r-10 p-t-10 image-size item"></a>
-                        <a href="#">
-                            <img src="../images/tv-show/poster/never-have-ever-short poster.jpg" alt=""
-                                 class="mylist-img p-r-10 p-t-10 image-size item"></a>
-                        <a href="#">
-                            <img src="../images/movies/we-are-the-milers-poster-little.webp" alt=""
-                                 class="mylist-img p-r-10 p-t-10 image-size item"></a>
-
-
-
-                    </div>
-                </section>
-
+                    <!-- Caption files -->
+                </video>
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    // This is the bare minimum JavaScript. You can opt to pass no arguments to setup.
+                    const player = new Plyr('#player');
+
+                    // Expose
+                    window.player = player;
+
+                    // Bind event listener
+                    function on(selector, type, callback) {
+                        document.querySelector(selector).addEventListener(type, callback, false);
+                    }
+                });
+            </script>
+
+
+            <section class="movieinformation container">
+                <div class="movielogo">
+                    <h1 style="font-size: 30px">${detail.name}</h1>
+                </div>
+                <div class="description">
+                    ${detail.discription}
+                </div>
+                <div class="castinformation">
+                    <p><span class="name">Director:</span>  ${detail.director} </p>
+                </div>
+                <div class="actions d-flex flex-start flex-middle">
+                    <a href="#" class="link-item">
+                        <i class="fa fa-plus"></i></br>
+                        My List
+                    </a>
+                    <a href="${detail.path}" class="link-item">
+                        <i class="fa fa-download"></i></br>
+                        Download
+                    </a>
+                </div>
+            </section>
+
+
+
+
+            <!--Hollywood Action movies-->
+            <section id="similar" class="container p-t-40">
+                <h4 class="romantic-heading">
+                    More Like This
+                </h4>
+                <div class="romantic-container d-flex flex-start flex-middle">
+                    <c:if test="${detail.cate == 'TV Shows'}">
+                        <c:forEach items="${listT}" var = "o">
+                            <a href="detail?pid=${o.ID}">
+                                <img src="${o.poster_path}" alt=""
+                                     class="mylist-img p-r-10 p-t-10 image-size item" style="height: 200px; width: 400px"></a>
+                            </c:forEach>
+                        </c:if>
+                    <c:if test="${detail.cate == 'Phim'}">
+                        <c:forEach items="${listM}" var = "o">
+                            <a href="detail?pid=${o.ID}">
+                                <img src="${o.poster_path}" alt=""
+                                     class="mylist-img p-r-10 p-t-10 image-size item" style="height: 200px; width: 400px"></a>
+                            </c:forEach>
+                        </c:if>
+                </div>
+            </section>
+
+        </div>
 
 
         <jsp:include page="footer.jsp"></jsp:include>

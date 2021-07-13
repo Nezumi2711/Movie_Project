@@ -67,6 +67,7 @@
                             <label for="rememberMe"><span class="login-remember-me-label-text">Remember me</span></label>
                         </div>
                         <p class="signUpText para">
+                            <a href="forgot" style="color: gray">Forgot password?</a><br>
                             New to Netflix? <span class="signUp"><a href="signup">Sign up Now</a></span>
                         </p>
                         <p class="bottomMessage para">

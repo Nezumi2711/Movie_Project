@@ -12,14 +12,17 @@
             <h2 class="second-logo-text red-color f-s-28">N</h2>
         </a>
         <a href="home" class="nav-item home">Home</a>
-        <a href="tvshow.html" class="nav-item">TV Show</a>
-        <a href="movies.html" class="nav-item">Movies</a>
+        <a href="tvshow" class="nav-item">TV Show</a>
+        <a href="movie" class="nav-item">Movies</a>
         <a href="latest.html" class="nav-item latest">Latest</a>
         <a href="mylist.html" class="nav-item">My List</a>
     </div>
     <div class="righticons d-flex flex-end flex-middle">
-        <a href="search.html"><img src="images/icons/search.svg" alt="search icon"></a>
-
+        <form action="search" method="post">
+            <input type="text" name="name"><button id="button" type="submit"><img src="images/icons/search.svg" alt="search icon"></button>
+            <!-- Let SearchControl know which page is using this menu.jsp -->
+            <input type="text" hidden value="${flag}" name="flag">
+        </form>
         <div class="dropdown">
             <img src="images/icons/user-image-green.png" alt="user profile icon" class="user-icon"> <span class="profile-arrow"></span>
 

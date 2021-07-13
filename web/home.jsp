@@ -18,7 +18,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Netflix world- Frontend Clone – Watch TV Shows Online, Watch Movies Online</title>
+        <title>Netflix</title>
         <meta name="description" content="Video streaming website Netflix clone. Frontend - HTML5, Pure CSS3 [flexbox], JS, OWL Carousel, JQuery |" />
         <meta name="robots" content="index, follow" />
 
@@ -43,7 +43,15 @@
 
         <link rel="stylesheet" href="assets/css/global.css">
         <link rel="stylesheet" href="assets/css/browse.css">
-
+        <style>
+            #button {
+                background-color: Transparent;
+                background-repeat:no-repeat;
+                border: none;
+                cursor:pointer;
+                overflow: hidden;   
+            }
+        </style>
         <script>
 
         </script>
@@ -67,7 +75,7 @@
                                 <!--trailer video-->
                                 <video class="hero-background-image" id="hero-video"
                                        poster="${last.poster_path}">
-                                <source src="Resource/Phim/Phim Giang Hồ 2019 Cao Thủ Ẩn Danh - FULL Bảo Liêm, La Thành, Hiếu Hiền, Ốc Thanh Vân, Khả Ngân.mp4"
+                                <source src="${last.path}"
                                         type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
@@ -89,7 +97,7 @@
                                         <svg viewBox="0 0 24 24">
                                         <path d="M6 4l15 8-15 8z" fill="currentColor"></path>
                                         </svg>
-                                    </span> <a href="single.html">Play</a></button>
+                                    </span> <a href="detail?pid=${last.ID}">Play</a></button>
 
                                 <button class="more-info-button m-t-20"><span>
                                         <svg viewBox="0 0 24 24">
@@ -97,7 +105,7 @@
                                             d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10zm-2 0a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8zm-9 6v-7h2v7h-2zm1-8.75a1.21 1.21 0 0 1-.877-.364A1.188 1.188 0 0 1 10.75 8c0-.348.123-.644.372-.886.247-.242.54-.364.878-.364.337 0 .63.122.877.364.248.242.373.538.373.886s-.124.644-.373.886A1.21 1.21 0 0 1 12 9.25z"
                                             fill="currentColor"></path>
                                         </svg>
-                                    </span> More Info</button>
+                                    </span><a href="detail?pid=${last.ID}">More Info</a></button>
                             </div>
                         </div>
                     </section>
@@ -259,7 +267,7 @@
                             <c:forEach items="${listTV}" var = "o">
                                 <div class="video">
                                     <video class="mylist-img p-r-10 p-t-10 video-item"
-                                           poster="${o.poster_path}">
+                                           poster="${o.poster_path}" height="200" width="700">
                                     </video>
 
                                     <div class="video-description d-flex flex-end direction-column">
