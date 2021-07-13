@@ -1,9 +1,10 @@
+package control;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package control;
 
 import DAO.DAO;
 import entity.Account;
@@ -11,17 +12,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author phanh
  */
-@WebServlet(name = "WelcomeControl", urlPatterns = {"/check-user"})
-public class WelcomeControl extends HttpServlet {
+@WebServlet(urlPatterns = {"/editProfile"})
+public class editProfileControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,20 +36,6 @@ public class WelcomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String email = request.getParameter("email");
-        DAO dao = new DAO();
-        Account a = dao.checkAccountExist(email);
-        if (a == null) {
-            Cookie e = new Cookie("email", email);
-            e.setMaxAge(10);
-            response.addCookie(e);
-            response.sendRedirect("load");
-        } else {
-            Cookie e = new Cookie("email", email);
-            e.setMaxAge(10);
-            response.addCookie(e);
-            request.getRequestDispatcher("check").forward(request, response);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,7 +50,12 @@ public class WelcomeControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        if(session.getAttribute("acc") == null){
+            response.sendRedirect("signin");
+        } else {
+            response.sendRedirect("editProfile.jsp");
+        }
     }
 
     /**
@@ -77,7 +69,20 @@ public class WelcomeControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+                request.setCharacterEncoding("UTF-8");
+        String fullName = request.getParameter("fullName");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String id = request.getParameter("id");
+
+        DAO dao = new DAO();
+        dao.editProfileUser(id, fullName, email, phone);
+        Account a = dao.checkAccountExist(email);
+        HttpSession session = request.getSession();
+        session.setAttribute("acc", a);
+        session.setMaxInactiveInterval(60 * 60 * 60);
+        request.setAttribute("notification", 1);
+        request.getRequestDispatcher("userProfile.jsp").forward(request, response);
     }
 
     /**

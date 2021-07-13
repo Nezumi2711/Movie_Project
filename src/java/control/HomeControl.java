@@ -11,10 +11,10 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -35,8 +35,9 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Cookie ck[] = request.getCookies();
-        if(ck.length <= 3){
+        request.setAttribute("flag", "home");
+        HttpSession session = request.getSession();
+        if(session.getAttribute("acc") == null){
             response.sendRedirect("signin");
         } else {
             //get Data

@@ -6,7 +6,9 @@
 package control;
 
 import DAO.DAO;
+import DAO.SendEmail;
 import entity.Account;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -15,41 +17,14 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author phanh
  */
-@WebServlet(name = "WelcomeControl", urlPatterns = {"/check-user"})
-public class WelcomeControl extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String email = request.getParameter("email");
-        DAO dao = new DAO();
-        Account a = dao.checkAccountExist(email);
-        if (a == null) {
-            Cookie e = new Cookie("email", email);
-            e.setMaxAge(10);
-            response.addCookie(e);
-            response.sendRedirect("load");
-        } else {
-            Cookie e = new Cookie("email", email);
-            e.setMaxAge(10);
-            response.addCookie(e);
-            request.getRequestDispatcher("check").forward(request, response);
-        }
-    }
+@WebServlet(name = "ForgotControl", urlPatterns = {"/forgot"})
+public class ForgotControl extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -63,7 +38,7 @@ public class WelcomeControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.getRequestDispatcher("forgot.jsp").forward(request, response);
     }
 
     /**
@@ -77,7 +52,33 @@ public class WelcomeControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String email = request.getParameter("email");
+        DAO dao = new DAO();
+        String acc = dao.findAccountByEmail(email);
+        if (acc == null) {
+            request.setAttribute("mess", 1);
+            request.getRequestDispatcher("forgot.jsp").forward(request, response);
+        } else {
+            Cookie ck = new Cookie("email", email);
+            ck.setMaxAge(60);
+            response.addCookie(ck);
+            Account account = dao.checkAccountExist(email);
+            String name = account.getFullName();
+            SendEmail sm = new SendEmail();
+            //get the 6-digit code
+            String code = sm.getRandom();
+
+            //craete new user using all information
+            User user = new User(email, code, name);
+
+            boolean test = sm.sendEmail(user);
+
+            if (test) {
+                HttpSession session = request.getSession();
+                session.setAttribute("authcode", user);
+                response.sendRedirect("verify.jsp");
+            }
+        }
     }
 
     /**

@@ -6,7 +6,6 @@
 package control;
 
 import DAO.DAO;
-import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author phanh
  */
-@WebServlet(name = "WelcomeControl", urlPatterns = {"/check-user"})
-public class WelcomeControl extends HttpServlet {
+@WebServlet(name = "changePassword", urlPatterns = {"/changePassword"})
+public class changePassword extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,20 +34,19 @@ public class WelcomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String email = request.getParameter("email");
-        DAO dao = new DAO();
-        Account a = dao.checkAccountExist(email);
-        if (a == null) {
-            Cookie e = new Cookie("email", email);
-            e.setMaxAge(10);
-            response.addCookie(e);
-            response.sendRedirect("load");
-        } else {
-            Cookie e = new Cookie("email", email);
-            e.setMaxAge(10);
-            response.addCookie(e);
-            request.getRequestDispatcher("check").forward(request, response);
+        Cookie ck[] = request.getCookies();
+        String email = "";
+        String page = "signin";
+        String pass = request.getParameter("repeat-password");
+        for (Cookie o : ck) {
+            if (o.getName().equals("email")) {
+                email = o.getValue();
+                DAO dao = new DAO();
+                dao.updatePassword(email, pass);
+                page = "success.jsp";
+            }
         }
+        response.sendRedirect(page);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

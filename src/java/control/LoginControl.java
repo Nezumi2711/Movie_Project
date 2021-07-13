@@ -24,15 +24,6 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "LoginControl", urlPatterns = {"/signin"})
 public class LoginControl extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -80,18 +71,14 @@ public class LoginControl extends HttpServlet {
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("acc", a);
-            session.setMaxInactiveInterval(60*60);
             Cookie e = new Cookie("email", email);
-            Cookie p = new Cookie("pass", passWord);
             Cookie r = new Cookie("rememberMe", "");
             if ("[yes]".equals(remembers)) {
                 r = new Cookie("rememberMe", "[yes]");
             }
             e.setMaxAge(60 * 60 * 24);
-            p.setMaxAge(60*60);
             r.setMaxAge(60 * 60 * 24);
             response.addCookie(e);
-            response.addCookie(p);
             response.addCookie(r);
             request.getRequestDispatcher("redirect").forward(request, response);
         }

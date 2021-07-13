@@ -9,19 +9,20 @@ import DAO.DAO;
 import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author phanh
  */
-@WebServlet(name = "WelcomeControl", urlPatterns = {"/check-user"})
-public class WelcomeControl extends HttpServlet {
+@WebServlet(name = "userControl", urlPatterns = {"/user"})
+public class userControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,19 +36,14 @@ public class WelcomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String email = request.getParameter("email");
-        DAO dao = new DAO();
-        Account a = dao.checkAccountExist(email);
-        if (a == null) {
-            Cookie e = new Cookie("email", email);
-            e.setMaxAge(10);
-            response.addCookie(e);
-            response.sendRedirect("load");
+        HttpSession session = request.getSession();
+        if(session.getAttribute("acc") == null){
+            response.sendRedirect("signin");
         } else {
-            Cookie e = new Cookie("email", email);
-            e.setMaxAge(10);
-            response.addCookie(e);
-            request.getRequestDispatcher("check").forward(request, response);
+            DAO dao = new DAO();
+            List<Account> listAcc = dao.getAllAccount();
+            request.setAttribute("account", listAcc);
+            request.getRequestDispatcher("/admin/user.jsp").forward(request, response);
         }
     }
 

@@ -8,11 +8,13 @@ package control;
 import DAO.DAO;
 import entity.Movie;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,11 +35,20 @@ public class DetailControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String id = request.getParameter("pid");
-        DAO dao = new DAO();
-        Movie m = dao.getMovieById(id);
-        request.setAttribute("detail", m);
-        request.getRequestDispatcher("detail.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        if (session.getAttribute("acc") == null) {
+            response.sendRedirect("signin");
+        } else {
+            String id = request.getParameter("pid");
+            DAO dao = new DAO();
+            Movie m = dao.getMovieById(id);
+            List<Movie> movie = dao.getAllMovie();
+            List<Movie> tvshows = dao.getAllTVShows();
+            request.setAttribute("listM", movie);
+            request.setAttribute("listT", tvshows);
+            request.setAttribute("detail", m);
+            request.getRequestDispatcher("detail.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
